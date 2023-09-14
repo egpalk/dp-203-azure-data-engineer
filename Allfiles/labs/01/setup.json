@@ -70,7 +70,9 @@
         "dependsOn": [],
         "properties": {
             "tags": {
-                "DeploymentId": "[parameters('uniqueSuffix')]"
+                "DeploymentId": "[parameters('uniqueSuffix')]",
+                "DueDate": "2023-12-31",
+                "Owner": "egle.palk@solita.ee"
             }
         }
     },
@@ -80,7 +82,10 @@
         "name": "[parameters('dataLakeAccountName')]",
         "location": "[variables('location')]",
         "dependsOn": [],
-        "tags": {},
+        "tags": {
+          "DueDate": "2023-12-31",
+          "Owner": "egle.palk@solita.ee"
+        },
         "sku": {
           "name": "Standard_LRS"
         },
