@@ -101,31 +101,32 @@ $Region = $locations.Get($rand).Location
  $success = 0
  $tried_list = New-Object Collections.Generic.List[string]
 
- while ($success -ne 1){
-    write-host "Trying $Region"
-    $capability = Get-AzSqlCapability -LocationName $Region
-    if($capability.Status -eq "Available")
-    {
-        $success = 1
-        write-host "Using $Region"
-    }
-    else
-    {
-        $success = 0
-        $tried_list.Add($Region)
-        $locations = $locations | Where-Object {$_.Location -notin $tried_list}
-        if ($locations.Count -ne 1)
-        {
-            $rand = (0..$($locations.Count - 1)) | Get-Random
-            $Region = $locations.Get($rand).Location
-        }
-        else {
-            Write-Host "Couldn't find an available region for deployment."
-            Write-Host "Sorry! Try again later."
-            Exit
-        }
-    }
-}
+ $Region = "westeurope"
+#  while ($success -ne 1){
+#     write-host "Trying $Region"
+#     $capability = Get-AzSqlCapability -LocationName $Region
+#     if($capability.Status -eq "Available")
+#     {
+#         $success = 1
+#         write-host "Using $Region"
+#     }
+#     else
+#     {
+#         $success = 0
+#         $tried_list.Add($Region)
+#         $locations = $locations | Where-Object {$_.Location -notin $tried_list}
+#         if ($locations.Count -ne 1)
+#         {
+#             $rand = (0..$($locations.Count - 1)) | Get-Random
+#             $Region = $locations.Get($rand).Location
+#         }
+#         else {
+#             Write-Host "Couldn't find an available region for deployment."
+#             Write-Host "Sorry! Try again later."
+#             Exit
+#         }
+#     }
+# }
 Write-Host "Creating $resourceGroupName resource group in $Region ..."
 New-AzResourceGroup -Name $resourceGroupName -Location $Region -Tag @{Owner="egle.palk@solita.ee"; DueDate="2023-12-31"}| Out-Null
 
@@ -161,7 +162,7 @@ $subscriptionId = (Get-AzContext).Subscription.Id
 $userName = ((az ad signed-in-user show) | ConvertFrom-JSON).UserPrincipalName
 $id = (Get-AzADServicePrincipal -DisplayName $synapseWorkspace).id
 New-AzRoleAssignment -Objectid $id -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
-New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
+#New-AzRoleAssignment -SignInName $userName -RoleDefinitionName "Storage Blob Data Owner" -Scope "/subscriptions/$subscriptionId/resourceGroups/$resourceGroupName/providers/Microsoft.Storage/storageAccounts/$dataLakeAccountName" -ErrorAction SilentlyContinue;
 
 
 # Create database
