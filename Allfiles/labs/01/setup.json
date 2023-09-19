@@ -43,7 +43,14 @@
         "metadata": {
           "description": "Suffix added to all resource name to make them unique."
         }
+      },
+      "tagValues": {
+      "type": "object",
+      "defaultValue": {
+        "DueDate": "2023-12-31",
+        "Owner": "egle.palk@solita.ee"
       }
+    }
     },
     "variables": {
       "location": "[resourceGroup().location]",
@@ -82,10 +89,7 @@
         "name": "[parameters('dataLakeAccountName')]",
         "location": "[variables('location')]",
         "dependsOn": [],
-        "tags": {
-          "DueDate": "2023-12-31",
-          "Owner": "egle.palk@solita.ee"
-        },
+        "tags": "[parameters('tagValues')]",
         "sku": {
           "name": "Standard_LRS"
         },
@@ -94,11 +98,7 @@
           "accessTier": "Hot",
           "supportsHttpsTrafficOnly": "true",
           "isHnsEnabled": "true",
-          "largeFileSharesState": "Disabled",
-          "tags": {
-            "DueDate": "2023-12-31",
-            "Owner": "egle.palk@solita.ee"
-        }
+          "largeFileSharesState": "Disabled"
         },
         "resources": [
           {
@@ -115,6 +115,7 @@
         "type": "Microsoft.Storage/storageAccounts/blobServices",
         "apiVersion": "2019-06-01",
         "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+        "tags": "[parameters('tagValues')]",
         "dependsOn": [
           "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
         ],
@@ -128,17 +129,14 @@
           },
           "deleteRetentionPolicy": {
             "enabled": false
-          },
-          "tags": {
-            "DueDate": "2023-12-31",
-            "Owner": "egle.palk@solita.ee"
-        }
+          }
         }
       },
       {
         "type": "Microsoft.Storage/storageAccounts/fileServices",
         "apiVersion": "2019-06-01",
         "name": "[concat(parameters('dataLakeAccountName'), '/default')]",
+        "tags": "[parameters('tagValues')]",
         "dependsOn": [
           "[resourceId('Microsoft.Storage/storageAccounts', parameters('dataLakeAccountName'))]"
         ],
@@ -149,17 +147,14 @@
         "properties": {
           "cors": {
             "corsRules": []
-          },
-          "tags": {
-            "DueDate": "2023-12-31",
-            "Owner": "egle.palk@solita.ee"
-        }
+          }
         }
       },
       {
         "type": "Microsoft.Synapse/workspaces",
         "apiVersion": "2019-06-01-preview",
         "name": "[parameters('workspaceName')]",
+        "tags": "[parameters('tagValues')]",
         "location": "[variables('location')]",
         "dependsOn": [
           "[concat('Microsoft.Storage/storageAccounts/', parameters('dataLakeAccountName'), '/blobServices/default/containers/', variables('defaultDataLakeStorageFilesystemName'))]"
@@ -177,16 +172,13 @@
           },
           "sqlAdministratorLogin": "[parameters('sqlUser')]",
           "sqlAdministratorLoginPassword": "[parameters('sqlPassword')]",
-          "tags": {
-            "DueDate": "2023-12-31",
-            "Owner": "egle.palk@solita.ee"
-        }
         },
         "resources": [
           {
             "type": "firewallrules",
             "apiVersion": "2019-06-01-preview",
             "name": "allowAll",
+            "tags": "[parameters('tagValues')]",
             "location": "[variables('location')]",
             "dependsOn": [
               "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
@@ -194,10 +186,6 @@
             "properties": {
               "startIpAddress": "0.0.0.0",
               "endIpAddress": "255.255.255.255",
-              "tags": {
-                "DueDate": "2023-12-31",
-                "Owner": "egle.palk@solita.ee"
-            }
             }
           }
         ]
@@ -207,6 +195,7 @@
           "type": "Microsoft.Synapse/workspaces/sqlPools",
           "apiVersion": "2019-06-01-preview",
           "name": "[concat(parameters('workspaceName'), '/', parameters('sqlDatabaseName'))]",
+          "tags": "[parameters('tagValues')]",
           "location": "[variables('location')]",
           "sku": {
             "name": "[variables('sqlSKU')]"
@@ -217,16 +206,13 @@
           "properties": {
             "createMode": "Default",
             "collation": "SQL_Latin1_General_CP1_CI_AS",
-            "tags": {
-              "DueDate": "2023-12-31",
-              "Owner": "egle.palk@solita.ee"
-          }
           }
         },
       {
         "type": "Microsoft.Synapse/workspaces/bigDataPools",
         "apiVersion": "2019-06-01-preview",
         "name": "[concat(parameters('workspaceName'), '/', parameters('sparkPoolName'))]",
+        "tags": "[parameters('tagValues')]",
         "location": "[variables('location')]",
         "dependsOn": [
           "[concat('Microsoft.Synapse/workspaces/', parameters('workspaceName'))]"
@@ -245,10 +231,6 @@
             "delayInMinutes": "[variables('sparkAutoPauseDelayInMinutes')]"
           },
           "sparkVersion": "[variables('sparkVersion')]",
-          "tags": {
-            "DueDate": "2023-12-31",
-            "Owner": "egle.palk@solita.ee"
-        }
         }
       }
     ] 
