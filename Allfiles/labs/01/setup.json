@@ -62,10 +62,10 @@
       "sparkAutoPauseDelayInMinutes": "15",
       "sparkVersion": "3.1"
     },
-    "resources": [
+    "resources":[
       {
         "type": "Microsoft.Resources/tags",
-        "name": "default",
+        "name": "default", 
         "apiVersion": "2019-10-01",
         "dependsOn": [],
         "properties": {
@@ -94,7 +94,11 @@
           "accessTier": "Hot",
           "supportsHttpsTrafficOnly": "true",
           "isHnsEnabled": "true",
-          "largeFileSharesState": "Disabled"
+          "largeFileSharesState": "Disabled",
+          "tags": {
+            "DueDate": "2023-12-31",
+            "Owner": "egle.palk@solita.ee"
+        }
         },
         "resources": [
           {
@@ -124,7 +128,11 @@
           },
           "deleteRetentionPolicy": {
             "enabled": false
-          }
+          },
+          "tags": {
+            "DueDate": "2023-12-31",
+            "Owner": "egle.palk@solita.ee"
+        }
         }
       },
       {
@@ -141,7 +149,11 @@
         "properties": {
           "cors": {
             "corsRules": []
-          }
+          },
+          "tags": {
+            "DueDate": "2023-12-31",
+            "Owner": "egle.palk@solita.ee"
+        }
         }
       },
       {
@@ -164,7 +176,11 @@
             "computeSubnetId": "[variables('computeSubnetId')]"
           },
           "sqlAdministratorLogin": "[parameters('sqlUser')]",
-          "sqlAdministratorLoginPassword": "[parameters('sqlPassword')]"
+          "sqlAdministratorLoginPassword": "[parameters('sqlPassword')]",
+          "tags": {
+            "DueDate": "2023-12-31",
+            "Owner": "egle.palk@solita.ee"
+        }
         },
         "resources": [
           {
@@ -177,7 +193,11 @@
             ],
             "properties": {
               "startIpAddress": "0.0.0.0",
-              "endIpAddress": "255.255.255.255"
+              "endIpAddress": "255.255.255.255",
+              "tags": {
+                "DueDate": "2023-12-31",
+                "Owner": "egle.palk@solita.ee"
+            }
             }
           }
         ]
@@ -196,7 +216,11 @@
           ],
           "properties": {
             "createMode": "Default",
-            "collation": "SQL_Latin1_General_CP1_CI_AS"
+            "collation": "SQL_Latin1_General_CP1_CI_AS",
+            "tags": {
+              "DueDate": "2023-12-31",
+              "Owner": "egle.palk@solita.ee"
+          }
           }
         },
       {
@@ -220,7 +244,11 @@
             "enabled": "[variables('sparkAutoPauseEnabled')]",
             "delayInMinutes": "[variables('sparkAutoPauseDelayInMinutes')]"
           },
-          "sparkVersion": "[variables('sparkVersion')]"
+          "sparkVersion": "[variables('sparkVersion')]",
+          "tags": {
+            "DueDate": "2023-12-31",
+            "Owner": "egle.palk@solita.ee"
+        }
         }
       }
     ] 
